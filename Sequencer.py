@@ -59,7 +59,7 @@ def linear_combination(mass):
           total += factors[i] * weighs[i]
        if int(total) == mass or int(total) + 1 == mass or int(total) - 1 == mass:
           if sum(list(factors)) == 4:
-              print(factors)
+              print(dict(zip(side_chains.keys(), list(factors))))
 '''
 def sequence(mass):
     def sequence_helper(mass, monomer, monomer_list, poss_seq):
