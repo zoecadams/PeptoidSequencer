@@ -7,6 +7,7 @@ frag = wb['Fragments(edit)']
 etc = dict(Proton=1.01, Linker=326.21, Acetyl=43.02, Fluoro=388.08)
 side_chains = dict(Gly=115.03, Ala=129.04, Amb=143.05, EDA=100.06, Pip=191.06, But=113.09, Ben=147.07)
 [115.03, 129.04, ]
+
 def mol_ion(mass, acetyl):
     mol_ion_mass_mod = list(mol_ion_mass)
     for obj in mol_ion_mass_mod:
@@ -29,6 +30,7 @@ def mol_ion(mass, acetyl):
         if int(mass - 1) == int(mz.value + etc['Fluoro']):
             mass -= etc['Fluoro'] + etc['Proton'] + etc['Linker']
             linear_combination(int(mass))
+
 
 def factors_set():
     factors_set = ( (i, j , k ,l, m, n, p) for i in [0,1,2,3,4]
@@ -60,6 +62,11 @@ def linear_combination(mass):
        if int(total) == mass or int(total) + 1 == mass or int(total) - 1 == mass:
           if sum(list(factors)) == 4:
               print(dict(zip(side_chains.keys(), list(factors))))
+mass = raw_input('Input Mass:')
+acetyl = raw_input('Acetylated? y or n     ')
+y=True
+n=False
+mol_ion(int(mass),acetyl)
 '''
 def sequence(mass):
     def sequence_helper(mass, monomer, monomer_list, poss_seq):
