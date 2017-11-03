@@ -1,4 +1,5 @@
 from openpyxl import Workbook, load_workbook
+import numpy as np
 
 wb = load_workbook('DowSeq.xlsx', data_only=True)
 seq = wb['Sequences(edit)']
@@ -57,17 +58,66 @@ def linear_combination(mass):
 
     for factors in factors_set():
        total = 0
+       sidechains = []
+       list_side_chains = [side_chains.keys()]
+       list_side_chains2 = np.transpose(list_side_chains)
        for i in range(len(factors)):
           total += factors[i] * weighs[i]
        if int(total) == mass or int(total) + 1 == mass or int(total) - 1 == mass:
           if sum(list(factors)) == 4:
-              print(dict(zip(side_chains.keys(), list(factors))))
+            list_factors = [factors]
+            list_factors2 = np.transpose(list_factors)
+            array1 = np.column_stack((list_side_chains2, list_factors2))
+            
+            for i in range(0,int(array1[0,1])):
+              sidechains.append(array1[0,0])
+            for i in range(0,int(array1[1,1])):
+              sidechains.append(array1[1,0])
+            for i in range(0,int(array1[2,1])):
+              sidechains.append(array1[2,0])
+            for i in range(0,int(array1[3,1])):
+              sidechains.append(array1[3,0])
+            for i in range(0,int(array1[4,1])):
+              sidechains.append(array1[4,0])
+            for i in range(0,int(array1[5,1])):
+              sidechains.append(array1[5,0])
+            for i in range(0,int(array1[6,1])):
+              sidechains.append(array1[6,0])
+
+            if end_res in sidechains:
+              print sidechains
+
+            '''for i in float(list_factors[1]):
+              list_side_chains.append('EDA')
+              print list_side_chains'''
+            
+            '''if end_res in side_chains.keys():'''
+            '''for i in list(factors):
+              list_side_chains.append(side_chains.keys())
+              print list_side_chains'''
+
+
+'''print(dict(zip(side_chains.keys(), list(factors))))'''
 mass = raw_input('Input Mass:')
 acetyl = raw_input('Acetylated? y or n     ')
 y=True
 n=False
+end_res = raw_input('What is the last residue?   ')
 mol_ion(int(mass),acetyl)
+
+
+
+
 '''
+
+EDA == side_chains.keys(EDA)
+Gly == side_chains.keys(Gly)
+Ala == side_chains.keys(Ala)
+Pip == side_chains.keys(Pip)
+Amb == side_chains.keys(Amb)
+But == side_chains.keys(But)
+Ben == side_chains.keys(Ben)
+
 def sequence(mass):
     def sequence_helper(mass, monomer, monomer_list, poss_seq):
         if mass >= -1 and mass <= 1:
