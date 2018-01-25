@@ -87,17 +87,6 @@ def linear_combination(mass):
             if end_res in sidechains:
               print sidechains
 
-            '''for i in float(list_factors[1]):
-              list_side_chains.append('EDA')
-              print list_side_chains'''
-            
-            '''if end_res in side_chains.keys():'''
-            '''for i in list(factors):
-              list_side_chains.append(side_chains.keys())
-              print list_side_chains'''
-
-
-'''print(dict(zip(side_chains.keys(), list(factors))))'''
 mass = raw_input('Input Mass:')
 acetyl = raw_input('Acetylated? y or n     ')
 y=True
