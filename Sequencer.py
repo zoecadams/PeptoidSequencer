@@ -58,6 +58,7 @@ def linear_combination(mass):
 
     for factors in factors_set():
        total = 0
+       sequences = []
        sidechains = []
        list_side_chains = [list(side_chains.keys())]
        list_side_chains2 = np.transpose(list_side_chains)
@@ -68,7 +69,7 @@ def linear_combination(mass):
             list_factors = [list(factors)]
             list_factors2 = np.transpose(list_factors)
             array1 = np.column_stack((list_side_chains2, list_factors2))
-            
+
             for i in range(0,int(array1[0,1])):
               sidechains.append(array1[0,0])
             for i in range(0,int(array1[1,1])):
@@ -83,9 +84,24 @@ def linear_combination(mass):
               sidechains.append(array1[5,0])
             for i in range(0,int(array1[6,1])):
               sidechains.append(array1[6,0])
-
             if end_res in sidechains:
               print(sidechains)
+
+def all_perms(elements):
+    if len(elements) <=1:
+        yield elements
+    else:
+        for perm in all_perms(elements[1:]):
+            for i in range(len(elements)):
+                # nb elements[0:1] works in both string and list contexts
+                yield perm[:i] + elements[0:1] + perm[i:]
+
+def filter(lst, criteria):
+    for i in len(lst):
+        if lst[i][3] != criteria:
+            del lst[i]
+
+
 
 mass = input('Input Mass:')
 acetyl = input('Acetylated? y or n     ')
@@ -93,7 +109,6 @@ y=True
 n=False
 end_res = input('What is the last residue?   ')
 mol_ion(int(mass),acetyl)
-
 
 
 
