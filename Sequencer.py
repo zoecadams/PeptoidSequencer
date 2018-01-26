@@ -59,13 +59,13 @@ def linear_combination(mass):
     for factors in factors_set():
        total = 0
        sidechains = []
-       list_side_chains = [side_chains.keys()]
+       list_side_chains = [list(side_chains.keys())]
        list_side_chains2 = np.transpose(list_side_chains)
        for i in range(len(factors)):
           total += factors[i] * weighs[i]
        if int(total) == mass or int(total) + 1 == mass or int(total) - 1 == mass:
           if sum(list(factors)) == 4:
-            list_factors = [factors]
+            list_factors = [list(factors)]
             list_factors2 = np.transpose(list_factors)
             array1 = np.column_stack((list_side_chains2, list_factors2))
             
@@ -85,13 +85,13 @@ def linear_combination(mass):
               sidechains.append(array1[6,0])
 
             if end_res in sidechains:
-              print sidechains
+              print(sidechains)
 
-mass = raw_input('Input Mass:')
-acetyl = raw_input('Acetylated? y or n     ')
+mass = input('Input Mass:')
+acetyl = input('Acetylated? y or n     ')
 y=True
 n=False
-end_res = raw_input('What is the last residue?   ')
+end_res = input('What is the last residue?   ')
 mol_ion(int(mass),acetyl)
 
 
