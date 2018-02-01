@@ -85,17 +85,11 @@ def linear_combination(mass):
             for i in range(0,int(array1[6,1])):
               sidechains.append(array1[6,0])
             if end_res in sidechains:
-              elements = sidechains
-              perms = all_perms(elements)
+              perms = all_perms(sidechains)
               listperms = list(perms)
-              for i in range(0,len(listperms)):
-                if listperms[i][3] != 'Amb':
-                  print('No')
-                else:
-                  print(listperms[i])
-              #print(listperms)
-              #filtered_listperms = filter1(listperms,end_res)
-              #print (filtered_listperms)
+              
+              filtered_listperms = filter1(listperms,end_res)
+              print (filtered_listperms)
 
 def all_perms(elements):
     if len(elements) <=1:
@@ -107,9 +101,12 @@ def all_perms(elements):
                 yield perm[:i] + elements[0:1] + perm[i:]
 
 def filter1(lst, criteria):
-    for i in range(0,(len(lst)-3)):
-        if lst[i][3] != criteria:
-            del lst[i]
+    filterperms = []
+    for i in range(0,len(lst)):
+        if lst[i][3] == criteria:
+          filterperms.append(lst[i])
+    return filterperms
+
 
 
 
