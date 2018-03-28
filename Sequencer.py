@@ -1,5 +1,6 @@
 from openpyxl import Workbook, load_workbook
 import numpy as np
+#from datascience import *
 
 wb = load_workbook('DowSeq.xlsx', data_only=True)
 seq = wb['Sequences(edit)']
@@ -7,7 +8,7 @@ mol_ion_mass = seq['B9':'B218']
 frag = wb['Fragments(edit)']
 etc = dict(Proton=1.01, Linker=326.21, Acetyl=43.02, Fluoro=388.08, MetAhx=213.12, Ahx=113.08)
 side_chains = dict(Gly=115.03, Ala=129.04, Amb=143.06, EDA=100.06, Pip=191.06, But=113.09, Ben=147.07)
-[115.03, 129.04, ]
+#[115.03, 129.04, ]
 
 def mol_ion(mass, acetyl):
     mol_ion_mass_mod = list(mol_ion_mass)
@@ -63,7 +64,7 @@ def linear_combination(mass):
        list_side_chains2 = np.transpose(list_side_chains)
        for i in range(len(factors)):
           total += factors[i] * weighs[i]
-       if int(total) == mass or mass <= int(total) + 1 and mass >= int(total) - 1 :
+       if int(total) == mass or mass <= int(total) + 2 and mass >= int(total) - 2 :
           if sum(list(factors)) == 4:
             list_factors = [list(factors)]
             list_factors2 = np.transpose(list_factors)
@@ -87,8 +88,8 @@ def linear_combination(mass):
               perms = all_perms(sidechains)
               listperms = list(perms)
               filtered_listperms = filter1(listperms,end_res)
-              print(filtered_listperms[1])
-    ions = ion_finder(filtered_listperms)
+              # print(filtered_listperms)
+              ions = ion_finder(filtered_listperms)
 
 
 def all_perms(elements):
@@ -108,7 +109,7 @@ def filter1(lst, criteria):
     return filterperms
 def ion_finder(filtered_listperms1):
   #determine possible y type ions
-
+  ys = []
   for  q in range(0,len(filtered_listperms1)):
     y1 = round(etc['Proton']*2 + etc['MetAhx'],2)
     y2 = round(etc['Proton']*2 + etc['MetAhx']+etc['Ahx'],2)
@@ -117,9 +118,12 @@ def ion_finder(filtered_listperms1):
     y5 = round(etc['Proton']*2 + etc['MetAhx']+etc['Ahx']+side_chains[filtered_listperms1[q][0]]+side_chains[filtered_listperms1[q][1]]+side_chains[filtered_listperms1[q][2]],2)
     y6 = round(etc['Proton']*2 + etc['MetAhx']+etc['Ahx']+side_chains[filtered_listperms1[q][0]]+side_chains[filtered_listperms1[q][1]]+side_chains[filtered_listperms1[q][2]]+side_chains[filtered_listperms1[q][3]],2)
   
-    print('y:', q,  y3, y4, y5)
+    #print('y:', q,  y3, y4, y5)
+    ys.append([y3,y4,y5])
+  print ('y:', ys)
 
   #determine possible b type ions
+  bs = []
   for  r in range(0,len(filtered_listperms1)):
     b1 = round(etc['Acetyl'],2)
     b2 = round(etc['Acetyl']+side_chains[filtered_listperms1[r][3]],2)
@@ -127,8 +131,9 @@ def ion_finder(filtered_listperms1):
     b4 = round(etc['Acetyl']+side_chains[filtered_listperms1[r][3]]+side_chains[filtered_listperms1[r][2]]+side_chains[filtered_listperms1[r][1]],2)
     b5 = round(etc['Acetyl']+side_chains[filtered_listperms1[r][3]]+side_chains[filtered_listperms1[r][2]]+side_chains[filtered_listperms1[r][1]]+side_chains[filtered_listperms1[r][0]],2)
     b6 = round(etc['Acetyl']+side_chains[filtered_listperms1[r][3]]+side_chains[filtered_listperms1[r][2]]+side_chains[filtered_listperms1[r][1]]+side_chains[filtered_listperms1[r][0]]+etc['Ahx'],2)
-    
-    print('b:',r, b2, b3, b4)
+    bs.append([b2,b3,b4])
+    #print('b:',r, b2, b3, b4)
+  print('b:', bs)
 
 mass = 827#input('Input Mass:')
 acetyl = True#input('Acetylated? y or n     ')
